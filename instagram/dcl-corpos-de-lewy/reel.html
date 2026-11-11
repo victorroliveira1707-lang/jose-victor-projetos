@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>DCL · Reel NeuroMov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=block" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0906; --surface:#181310; --surface-2:#221a14; --line:#3b2c1c;
+  --ink:#f6efe6; --ink-2:#c6b8a5; --ink-3:#a6957c;
+  --accent:#ff8a4c; --accent-2:#ffb073; --accent-ink:#ffc9a3;
+  --cadence:#6fd9c6; --danger:#ff5470; --gold:#ffc93c;
+  --display:"Space Grotesk",sans-serif; --body:"Inter",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:
+  radial-gradient(1200px 900px at 50% 28%, #1c130c 0%, var(--bg) 62%);
+  font-family:var(--body);color:var(--ink)}
+canvas{position:absolute;inset:0}
+/* faixa central 4:5 — é o recorte do carrossel e a zona segura do Reels */
+#band{position:absolute;left:0;top:285px;width:1080px;height:1350px}
+.scene{position:absolute;inset:0;padding:64px 84px 0;opacity:0;will-change:opacity,transform}
+.tag{font:600 23px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.tag b{color:var(--accent);font-weight:600}
+.tag.teal{color:var(--cadence)} .tag.red{color:var(--danger)}
+h1,h2,.big{font-family:var(--display);font-weight:600;letter-spacing:-.025em;text-wrap:balance}
+.dim{color:var(--ink-2)} .acc{color:var(--accent)} .teal{color:var(--cadence)} .ai{color:var(--accent-ink)}
+[data-in]{will-change:opacity,transform,filter}
+
+/* S1 */
+#s1 .morning{position:absolute;left:84px;top:560px;font:600 104px/1.02 var(--display);letter-spacing:-.03em}
+#s1 .after{position:absolute;left:84px;top:810px;font:600 104px/1.02 var(--display);letter-spacing:-.03em;color:var(--accent-2)}
+#s1 .quote{position:absolute;left:84px;right:84px;top:1090px;font:400 37px/1.35 var(--body);color:var(--ink-2)}
+#s1 .quote em{font-style:normal;color:var(--ink)}
+#s1 .tag{position:absolute;left:0;right:0;top:64px;text-align:center}
+
+/* S2 */
+#s2 .pre{font:500 44px/1.2 var(--display);color:var(--ink-2);margin-top:120px}
+#s2 h1{font-size:118px;line-height:.98;margin-top:22px}
+#s2 h1 span{color:var(--accent)}
+#s2 .stat{display:flex;align-items:flex-end;gap:30px;margin-top:92px}
+#s2 .num{font:700 170px/.85 var(--display);letter-spacing:-.04em;color:var(--cadence)}
+#s2 .numtxt{font:400 36px/1.3 var(--body);color:var(--ink-2);padding-bottom:6px}
+#s2 .numtxt b{color:var(--ink);font-weight:600}
+#s2 .early{margin-top:74px;padding:30px 34px;border-left:4px solid var(--accent);background:linear-gradient(90deg,rgba(255,138,76,.12),transparent);font:400 36px/1.35 var(--body);color:var(--ink-2)}
+#s2 .early b{color:var(--ink);font-weight:600}
+
+/* S3 */
+#s3 h2{font-size:70px;line-height:1.02;margin-top:20px}
+.legend{display:flex;gap:34px;margin-top:22px;font:500 24px/1 var(--body);color:var(--ink-2)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:10px;vertical-align:-1px}
+.cards{position:absolute;left:84px;right:84px;top:300px;display:grid;gap:16px}
+.card{height:218px;display:flex;align-items:center;gap:30px;padding:0 34px;border-radius:26px;
+  background:linear-gradient(135deg,rgba(34,26,20,.92),rgba(24,19,16,.92));border:1px solid var(--line)}
+.card .n{font:700 30px/1 var(--display);color:var(--ink-3);width:22px}
+.card svg{flex:0 0 92px;width:92px;height:92px;stroke:var(--cadence);fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.card .lay{font:600 39px/1.14 var(--display);letter-spacing:-.02em}
+.card .clin{font:400 27px/1.3 var(--body);color:var(--accent-ink);margin-top:12px}
+
+/* S4 */
+#s4 h2{font-size:64px;line-height:1.04;margin-top:20px}
+.barrow{margin-top:66px}
+.barrow .lbl{display:flex;align-items:baseline;gap:22px}
+.barrow .pct{font:700 150px/.9 var(--display);letter-spacing:-.04em}
+.barrow .txt{font:400 31px/1.3 var(--body);color:var(--ink-2)}
+.barrow .txt b{color:var(--ink);font-weight:600}
+.track{height:22px;border-radius:11px;background:rgba(255,255,255,.06);margin-top:22px;overflow:hidden}
+.fill{height:100%;border-radius:11px;width:0}
+#s4 .ask{position:absolute;left:84px;right:84px;top:880px;font:600 50px/1.14 var(--display);letter-spacing:-.02em}
+#s4 .ask small{display:block;font:400 32px/1.35 var(--body);color:var(--ink-2);margin-top:18px;letter-spacing:0}
+
+/* S5 */
+#s5 h2{font-size:70px;line-height:1.02;margin-top:20px}
+.rule{margin-top:50px;padding:36px 38px;border-radius:26px;border:1px solid var(--line);background:rgba(24,19,16,.9)}
+.rule .eq{display:flex;align-items:center;gap:22px;font:600 48px/1.1 var(--display);letter-spacing:-.02em}
+.rule .eq .arrow{color:var(--ink-3);font-weight:400}
+.rule .eq .res{color:var(--cadence)}
+.dots{display:flex;gap:14px}
+.dots i{width:34px;height:34px;border-radius:50%;border:3px solid var(--ink-3)}
+.dots i.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 24px rgba(255,138,76,.55)}
+.dots i.ex{border-radius:9px;background:var(--cadence);border-color:var(--cadence);box-shadow:0 0 24px rgba(111,217,198,.45)}
+.rule p{font:400 29px/1.35 var(--body);color:var(--ink-2);margin-top:18px}
+.chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.chip{font:500 25px/1 var(--body);padding:13px 20px;border-radius:999px;border:1px solid rgba(111,217,198,.45);color:var(--cadence)}
+#s5 .never{position:absolute;left:84px;right:84px;top:980px;font:600 46px/1.16 var(--display);letter-spacing:-.02em}
+#s5 .never span{color:var(--accent)}
+
+/* S6 */
+#s6 h2{font-size:84px;line-height:1;margin-top:22px}
+#s6 h2 span{color:var(--danger)}
+.avoid{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
+.avoid .chip{position:relative;border-color:rgba(255,84,112,.5);color:var(--ink);font-size:31px;padding:17px 26px}
+.avoid .chip u{position:absolute;left:14px;right:14px;top:50%;height:3px;background:var(--danger);transform-origin:left;text-decoration:none}
+#s6 .why{font:400 33px/1.36 var(--body);color:var(--ink-2);margin-top:30px}
+.vs{display:flex;gap:18px;margin-top:44px}
+.vs>div{flex:1;padding:28px 30px;border-radius:24px;border:1px solid var(--line);background:rgba(24,19,16,.9)}
+.vs .p{font:700 104px/.9 var(--display);letter-spacing:-.04em}
+.vs .t{font:400 26px/1.3 var(--body);color:var(--ink-2);margin-top:12px}
+#s6 .fam{position:absolute;left:84px;right:84px;top:1040px;padding:28px 32px;border-radius:24px;background:rgba(111,217,198,.1);border:1px solid rgba(111,217,198,.35);font:500 34px/1.32 var(--body)}
+#s6 .fam b{color:var(--cadence);font-weight:600}
+
+/* S7 */
+#s7 h2{font-size:84px;line-height:1;margin-top:22px}
+.help{margin-top:40px;display:grid;gap:0}
+.help .row{display:flex;gap:26px;align-items:flex-start;padding:27px 0;border-top:1px solid var(--line)}
+.help .k{font:700 30px/1.3 var(--display);color:var(--cadence);width:44px}
+.help .a{font:600 42px/1.12 var(--display);letter-spacing:-.02em}
+.help .b{font:400 28px/1.3 var(--body);color:var(--ink-2);margin-top:8px}
+#s7 .honest{position:absolute;left:84px;right:84px;top:1010px;padding:26px 30px;border-radius:22px;border:1px dashed rgba(255,138,76,.5);font:400 29px/1.36 var(--body);color:var(--ink-2)}
+#s7 .honest b{color:var(--accent-ink);font-weight:600}
+
+/* S8 */
+#s8{text-align:center}
+#s8 .mark{position:absolute;left:50%;top:232px;width:190px;height:190px;margin-left:-95px;color:var(--ink)}
+#s8 .big{position:absolute;left:84px;right:84px;top:570px;font-size:86px;line-height:1.02}
+#s8 .big span{color:var(--cadence)}
+#s8 .sub{position:absolute;left:110px;right:110px;top:790px;font:400 35px/1.36 var(--body);color:var(--ink-2)}
+#s8 .brand{position:absolute;left:0;right:0;top:960px;font:700 50px/1 var(--display);letter-spacing:-.02em}
+#s8 .brand small{display:block;font:500 23px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-top:16px}
+#s8 .src{position:absolute;left:110px;right:110px;top:1078px;font:400 21px/1.45 var(--body);color:var(--ink-3)}
+#s8 .src b{color:var(--ink-2);font-weight:500}
+
+/* carrossel */
+.pager{display:none;position:absolute;right:84px;top:64px;font:600 23px/1 var(--body);letter-spacing:.14em;color:var(--ink-3)}
+body.still .pager{display:block}
+body.still #s1 .tag{text-align:left;left:84px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" width="1080" height="1920"></canvas>
+  <div id="band">
+
+    <section class="scene" id="s1" data-s="0" data-e="6.4">
+      <div class="tag" data-in="0.2" data-fx="fade"><b>NeuroMov</b> · distúrbios do movimento</div>
+      <div class="morning" data-in="0.5" data-fx="rise">De manhã,<br>conversa.</div>
+      <div class="after" data-in="2.5" data-fx="rise" data-haze="1">À tarde, parece<br>outra pessoa.</div>
+      <div class="quote" data-in="4.2" data-fx="rise"><em>“Dois pacientes diferentes no mesmo dia.”</em><br>É assim que quem cuida costuma descrever.</div>
+    </section>
+
+    <section class="scene" id="s2" data-s="6.4" data-e="12.2">
+      <div class="tag" data-in="6.6" data-fx="fade">Isso pode ter nome</div>
+      <div class="pre" data-in="6.8" data-fx="rise">Não é teimosia. Não é “da idade”.</div>
+      <h1 data-in="7.3" data-fx="rise">Demência com <span>corpos de Lewy</span></h1>
+      <div class="stat">
+        <div class="num" data-in="8.4" data-fx="count" data-to="7.5" data-dec="1" data-suf="%" data-dur="1.2">7,5%</div>
+        <div class="numtxt" data-in="8.7" data-fx="rise"><b>ou mais</b> de todas as<br>demências em idosos</div>
+      </div>
+      <div class="early" data-in="9.8" data-fx="rise">Os primeiros sinais podem aparecer <b>15 anos ou mais</b> antes da demência.</div>
+    </section>
+
+    <section class="scene" id="s3" data-s="12.2" data-e="23.6">
+      <div class="tag" data-in="12.4" data-fx="fade">Critérios do consenso de 2017</div>
+      <h2 data-in="12.5" data-fx="rise">Os 4 sinais nucleares</h2>
+      <div class="legend" data-in="12.9" data-fx="fade"><span><i style="background:var(--ink)"></i>o que a família vê</span><span><i style="background:var(--accent-ink)"></i>como o neurologista nomeia</span></div>
+      <div class="cards">
+        <div class="card" data-in="13.3" data-fx="rise" data-until="15.8">
+          <span class="n">1</span>
+          <svg viewBox="0 0 92 92"><path data-in="13.5" data-fx="draw" data-dur="1.1" pathLength="1" d="M6 46 C14 14 22 14 30 46 S44 70 50 46 S58 38 62 46 S68 50 72 46 S80 44 86 46"/></svg>
+          <div><div class="lay">Dias lúcidos, dias de “apagão”</div><div class="clin">Cognição flutuante: atenção e alerta variam muito</div></div>
+        </div>
+        <div class="card" data-in="15.8" data-fx="rise" data-until="18.3">
+          <span class="n">2</span>
+          <svg viewBox="0 0 92 92"><path data-in="16" data-fx="draw" data-dur="1.1" pathLength="1" d="M8 46 C24 20 68 20 84 46 C68 72 24 72 8 46 Z"/><circle data-in="16.6" data-fx="pop" cx="46" cy="46" r="11"/></svg>
+          <div><div class="lay">Vê pessoas ou animais que não estão ali</div><div class="clin">Alucinações visuais recorrentes e bem formadas</div></div>
+        </div>
+        <div class="card" data-in="18.3" data-fx="rise" data-until="20.8">
+          <span class="n">3</span>
+          <svg viewBox="0 0 92 92"><path data-in="18.5" data-fx="draw" data-dur="1.1" pathLength="1" d="M62 14 A34 34 0 1 0 78 62 A27 27 0 0 1 62 14 Z"/></svg>
+          <div><div class="lay">Sono agitado, como se encenasse o sonho</div><div class="clin">Transtorno comportamental do sono REM</div></div>
+        </div>
+        <div class="card" data-in="20.8" data-fx="rise" data-until="99">
+          <span class="n">4</span>
+          <svg viewBox="0 0 92 92"><path data-in="21" data-fx="draw" data-dur="1.1" pathLength="1" d="M12 76 V16 M29 76 V28 M46 76 V40 M63 76 V52 M80 76 V62"/></svg>
+          <div><div class="lay">Mais lento, rígido ou com tremor</div><div class="clin">Parkinsonismo espontâneo: basta um dos três</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" id="s4" data-s="23.6" data-e="30">
+      <div class="tag teal" data-in="23.8" data-fx="fade">O sinal 3 merece uma pergunta</div>
+      <h2 data-in="23.9" data-fx="rise">O sono separa a DCL de outras demências</h2>
+      <div class="barrow">
+        <div class="lbl"><div class="pct teal" data-in="24.6" data-fx="count" data-to="76" data-suf="%" data-dur="1.3">76%</div>
+          <div class="txt" data-in="24.9" data-fx="rise">dos casos de DCL <b>confirmados<br>por autópsia</b> tinham o transtorno</div></div>
+        <div class="track"><div class="fill" data-in="24.6" data-fx="grow" data-to="76" data-dur="1.3" style="background:linear-gradient(90deg,#3aa896,var(--cadence))"></div></div>
+      </div>
+      <div class="barrow" style="margin-top:46px">
+        <div class="lbl"><div class="pct dim" data-in="26" data-fx="count" data-to="4" data-suf="%" data-dur=".8">4%</div>
+          <div class="txt" data-in="26.2" data-fx="rise">dos casos <b>sem DCL</b></div></div>
+        <div class="track"><div class="fill" data-in="26" data-fx="grow" data-to="4" data-dur=".8" style="background:var(--ink-3)"></div></div>
+      </div>
+      <div class="ask" data-in="27.2" data-fx="rise">Como é o sono dele?
+        <small>Esse sinal pode vir anos antes dos outros. Conte ao médico. E, colega, pergunte.</small></div>
+    </section>
+
+    <section class="scene" id="s5" data-s="30" data-e="36.4">
+      <div class="tag" data-in="30.2" data-fx="fade">Como o diagnóstico se fecha</div>
+      <h2 data-in="30.3" data-fx="rise">DCL provável:<br>dois caminhos</h2>
+      <div class="rule" data-in="31" data-fx="rise">
+        <div class="eq"><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="arrow">→</span><span class="res">provável</span></div>
+        <p>Dois ou mais sinais nucleares, com ou sem exame.</p>
+      </div>
+      <div class="rule" style="margin-top:18px" data-in="32.2" data-fx="rise">
+        <div class="eq"><span class="dots"><i class="on"></i><i class="ex"></i></span><span class="arrow">→</span><span class="res">provável</span></div>
+        <p>Um sinal nuclear somado a um biomarcador indicativo:</p>
+        <div class="chips"><span class="chip">Transportador de dopamina</span><span class="chip">MIBG cardíaca</span><span class="chip">Polissonografia</span></div>
+      </div>
+      <div class="never" data-in="33.8" data-fx="rise">Exame sozinho, sem sinal clínico, <span>nunca</span> fecha DCL provável.</div>
+    </section>
+
+    <section class="scene" id="s6" data-s="36.4" data-e="43.4">
+      <div class="tag red" data-in="36.6" data-fx="fade">Atenção no pronto-socorro</div>
+      <h2 data-in="36.7" data-fx="rise">Antipsicótico pode causar <span>reação grave</span></h2>
+      <div class="avoid">
+        <span class="chip" data-in="37.6" data-fx="pop">Haloperidol<u data-in="38.3" data-fx="strike" data-dur=".5"></u></span>
+        <span class="chip" data-in="37.8" data-fx="pop">Risperidona<u data-in="38.5" data-fx="strike" data-dur=".5"></u></span>
+        <span class="chip" data-in="38" data-fx="pop">Olanzapina<u data-in="38.7" data-fx="strike" data-dur=".5"></u></span>
+      </div>
+      <div class="why" data-in="38.9" data-fx="rise">Piora motora aguda, rebaixamento e quadro semelhante à síndrome neuroléptica maligna.</div>
+      <div class="vs">
+        <div data-in="39.8" data-fx="rise"><div class="p acc" data-in="39.8" data-fx="count" data-to="25" data-suf="%" data-dur="1">25%</div><div class="t">com episódio prévio de delirium na DCL</div></div>
+        <div data-in="40.1" data-fx="rise"><div class="p dim" data-in="40.1" data-fx="count" data-to="7" data-suf="%" data-dur="1">7%</div><div class="t">no Alzheimer</div></div>
+      </div>
+      <div class="fam" data-in="41.1" data-fx="rise"><b>Família:</b> avise toda a equipe sobre o diagnóstico, inclusive antes de cirurgias e anestesia.</div>
+    </section>
+
+    <section class="scene" id="s7" data-s="43.4" data-e="50.4">
+      <div class="tag teal" data-in="43.6" data-fx="fade">Manejo</div>
+      <h2 data-in="43.7" data-fx="rise">O que ajuda</h2>
+      <div class="help">
+        <div class="row" data-in="44.4" data-fx="rise"><span class="k">01</span><div><div class="a">Rivastigmina ou donepezila</div><div class="b">Base do tratamento: cognição, apatia e alucinações</div></div></div>
+        <div class="row" data-in="45.2" data-fx="rise"><span class="k">02</span><div><div class="a">Acolher as “visitas”</div><div class="b">Alucinação que não ameaça nem sempre pede remédio</div></div></div>
+        <div class="row" data-in="46" data-fx="rise"><span class="k">03</span><div><div class="a">Melatonina para o sono REM</div><div class="b">Menos risco cognitivo, motor e respiratório que o clonazepam</div></div></div>
+        <div class="row" data-in="46.8" data-fx="rise"><span class="k">04</span><div><div class="a">Levodopa na menor dose eficaz</div><div class="b">Para o parkinsonismo, sem agonista nem anticolinérgico</div></div></div>
+      </div>
+      <div class="honest" data-in="47.8" data-fx="rise"><b>Com honestidade:</b> não há fármaco aprovado pela FDA especificamente para a DCL. O tratamento é sintomático e de suporte.</div>
+    </section>
+
+    <section class="scene" id="s8" data-s="50.4" data-e="57">
+      <svg class="mark" data-in="51.6" data-fx="pop" data-dur="1" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="overflow:visible">
+        <path d="M13 14 Q11 6 20 5 Q29 6 27 14 Q26 18 20 19 Q14 18 13 14 Z"/>
+        <circle cx="16.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"/><circle cx="23.5" cy="11.5" r="0.9" fill="currentColor" stroke="none"/>
+        <path d="M14 18 C12 22 8 23 6 27 C5 29 6 31 8 30.5"/><path d="M16.5 18.6 C15.5 24 13 27 12 32 C11.5 34 13 35 14.5 34"/>
+        <path d="M19.5 19 C19.5 25 18.5 29 18.5 34 C18.5 36 20 36.5 21 35"/><path d="M22.5 18.6 C23.5 24 26 27 27 32 C27.5 34 26 35 24.5 34"/>
+        <path d="M25.5 18 C27.5 22 31 23 33 27 C34 29 33 31 31 30.5"/><path d="M12.3 15.6 C9.8 18.4 8.5 20 7.3 23"/>
+      </svg>
+      <div class="big" data-in="50.8" data-fx="rise">A flutuação <span>faz parte</span> da doença.</div>
+      <div class="sub" data-in="52" data-fx="rise">Saber disso evita idas repetidas à emergência por “piora súbita” e muda o que se prescreve.</div>
+      <div class="brand" data-in="53" data-fx="rise">NeuroMov<small>Salve · envie a quem cuida</small></div>
+      <div class="src" data-in="53.6" data-fx="fade"><b>Fontes:</b> McKeith IG et al. Neurology 2017;89(1):88-100 · McKeith IG et al. Neurology 2020;94(17):743-755 · Dementia with Lewy bodies, MedLink Neurology.<br>Conteúdo educativo. Não substitui consulta médica nem autoriza mudar medicação por conta própria.</div>
+    </section>
+
+    <div class="pager" id="pager"></div>
+  </div>
+</div>
+<script>
+const T = 57, W = 1080, H = 1920;
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=p=>1-Math.pow(1-p,4);
+const io=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const lerp=(a,b,p)=>a+(b-a)*p;
+const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+function kf(t,pts){ // interpolação por partes, suavizada
+  if(t<=pts[0][0])return pts[0][1];
+  for(let i=1;i<pts.length;i++){ if(t<=pts[i][0]){const [a,va]=pts[i-1],[b,vb]=pts[i];return lerp(va,vb,io((t-a)/(b-a)))} }
+  return pts[pts.length-1][1];
+}
+const scenes=[...document.querySelectorAll('.scene')].map(el=>({el,s:+el.dataset.s,e:+el.dataset.e}));
+const items=[...document.querySelectorAll('[data-in]')].map(el=>({el,tin:+el.dataset.in,dur:+(el.dataset.dur||.9),fx:el.dataset.fx,
+  to:+(el.dataset.to||0),dec:+(el.dataset.dec||0),suf:el.dataset.suf||'',until:el.dataset.until?+el.dataset.until:null,haze:!!el.dataset.haze}));
+const cv=document.getElementById('cv'),g=cv.getContext('2d');
+let STILL=false;
+
+// --- fundo: "corpos" (núcleo + halo), anel de pontos que se forma e se desfaz, traçado de alerta
+const bodies=Array.from({length:38},(_,i)=>({x:rnd(i)*W,y:rnd(i+50)*H,r:8+rnd(i+100)*30,p:rnd(i+150)*6.28,q:rnd(i+200)*6.28}));
+const N=170;
+const dots=Array.from({length:N},(_,i)=>({a:i/N*6.2832,sx:(rnd(i+300)-.5)*1180,sy:(rnd(i+400)-.5)*1500,st:rnd(i+500),sz:3.5+rnd(i+600)*4,p:rnd(i+700)*6.28}));
+const clarity=t=>kf(t,[[0,0],[1.5,1],[2.4,1],[3.9,0],[50.6,0],[52.6,1],[T,1]]);
+const ringA=t=>kf(t,[[0,1],[6,1],[7,.55],[11.8,.55],[12.6,.2],[50,.2],[50.8,1],[T,1]]);
+const ringCy=t=>kf(t,[[0,285+300],[50,285+300],[50.6,285+327],[T,285+327]]);
+const ringR=t=>kf(t,[[0,185],[50,185],[50.6,170],[T,170]]);
+function alert(x){ // amplitude do traçado: trechos calmos e trechos caóticos
+  const env=.5+.5*Math.sin(x*.0061+1.3)*Math.sin(x*.0023+.4);
+  return (Math.sin(x*.045)*34+Math.sin(x*.11+1)*15)*env*env + Math.sin(x*.012)*6;
+}
+function draw(t){
+  g.clearRect(0,0,W,H);
+  for(const b of bodies){
+    const x=b.x+34*Math.sin(t*.16+b.p), y=b.y+44*Math.cos(t*.13+b.q);
+    g.beginPath();g.arc(x,y,b.r,0,6.2832);g.strokeStyle='rgba(255,170,115,.085)';g.lineWidth=2;g.stroke();
+    g.beginPath();g.arc(x,y,b.r*.42,0,6.2832);g.fillStyle='rgba(255,150,90,.075)';g.fill();
+  }
+  const c=clarity(t),A=ringA(t),cy=ringCy(t),R=ringR(t),cx=W/2;
+  for(const d of dots){
+    const ci=io(clamp(c*1.5-d.st*.5));
+    const ang=d.a+t*.07;
+    const tx=cx+Math.cos(ang)*R, ty=cy+Math.sin(ang)*R;
+    const fx=cx+d.sx+26*Math.sin(t*.5+d.p), fy=cy+260+d.sy+26*Math.cos(t*.4+d.p);
+    const x=lerp(fx,tx,ci), y=lerp(fy,ty,ci);
+    const r=Math.round(lerp(255,111,ci)), gg=Math.round(lerp(138,217,ci)), bb=Math.round(lerp(76,198,ci));
+    g.beginPath();g.arc(x,y,d.sz*lerp(1,.8,ci),0,6.2832);
+    g.fillStyle=`rgba(${r},${gg},${bb},${A*lerp(.55,.95,ci)})`;g.fill();
+  }
+  // traçado de alerta = barra de progresso
+  const y0=285+1350-56, head=clamp(t/T)*W;
+  g.beginPath();g.moveTo(0,y0);g.lineTo(W,y0);g.strokeStyle='rgba(246,239,230,.09)';g.lineWidth=2;g.stroke();
+  const gr=g.createLinearGradient(0,0,W,0);gr.addColorStop(0,'#6fd9c6');gr.addColorStop(.5,'#ffb073');gr.addColorStop(1,'#ff8a4c');
+  g.beginPath();for(let x=0;x<=head;x+=3){const y=y0+alert(x);x?g.lineTo(x,y):g.moveTo(x,y)}
+  g.strokeStyle=gr;g.lineWidth=4;g.lineJoin='round';g.shadowColor='rgba(255,138,76,.55)';g.shadowBlur=16;g.stroke();g.shadowBlur=0;
+  g.beginPath();g.arc(head,y0+alert(head),8,0,6.2832);g.fillStyle='#f6efe6';g.fill();
+}
+
+function seek(t){
+  for(const sc of scenes){
+    const a=clamp((t-sc.s)/.45), b=clamp((sc.e-t)/.45);
+    const o=STILL?(t>=sc.s&&t<sc.e?1:0):Math.min(io(a),io(b));
+    sc.el.style.opacity=o;
+    sc.el.style.visibility=o>0?'visible':'hidden';
+    sc.el.style.transform=STILL||b>=1?'':`translateY(${-(1-io(b))*40}px) scale(${1+ (1-io(b))*.015})`;
+    sc.el.style.filter=STILL||b>=1?'':`blur(${(1-b)*8}px)`;
+  }
+  for(const it of items){
+    const p=STILL?1:ease(clamp((t-it.tin)/it.dur)), s=it.el.style;
+    let dimf=1;
+    if(it.until!==null&&!STILL) dimf=lerp(1,.5,io(clamp((t-it.until)/.6)));
+    switch(it.fx){
+      case 'rise': s.opacity=p*dimf; s.transform=`translateY(${(1-p)*48}px)`;
+        s.filter=it.haze?`blur(${(1-p)*12+(STILL?1.2:p*(1.6+1.2*Math.sin(t*2.2)))}px)`:(p<1?`blur(${(1-p)*10}px)`:''); break;
+      case 'fade': s.opacity=p; break;
+      case 'pop': s.opacity=p; s.transform=`scale(${.82+.18*p})`; s.transformOrigin='center'; s.transformBox='fill-box'; break;
+      case 'draw': s.strokeDasharray=1; s.strokeDashoffset=1-p; break;
+      case 'grow': s.width=(p*it.to)+'%'; break;
+      case 'strike': s.transform=`scaleX(${p})`; break;
+      case 'count': s.opacity=clamp(p*3); it.el.textContent=(it.to*p).toFixed(it.dec).replace('.',',')+it.suf; break;
+    }
+  }
+  draw(t);
+}
+function still(i){ // quadro de carrossel: cena i com tudo assentado
+  STILL=true; document.body.classList.add('still');
+  document.getElementById('pager').textContent=String(i+1).padStart(2,'0')+' / '+String(scenes.length).padStart(2,'0');
+  const sc=scenes[i]; seek(i===0?sc.e-.01:sc.e-.6);
+}
+window.seek=seek; window.still=still; window.T=T; window.NS=scenes.length;
+document.fonts.ready.then(()=>{window.READY=true; if(!navigator.webdriver){const t0=performance.now();(function f(){seek(((performance.now()-t0)/1000)%T);requestAnimationFrame(f)})()}});
+</script>
+</body>
+</html>
