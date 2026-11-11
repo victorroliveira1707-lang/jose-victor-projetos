@@ -28,20 +28,20 @@ Em 2026-11-11 os quadros foram conferidos contra o texto integral de McKeith IG 
 
 | Quadro | Afirmação | Situação |
 | --- | --- | --- |
-| 1 | "Dois pacientes diferentes no mesmo dia" | Pérola do nível básico do módulo; a frase não está no consenso de 2017 |
+| 1 | "Dois pacientes diferentes no mesmo dia" | Pérola do resumo do módulo; a frase não está no consenso de 2017 |
 | 2 | 7,5% ou mais das demências em idosos; sinais 15 anos ou mais antes | Nível Expert (McKeith 2020), marcado como verificado no app; não reconferido aqui |
 | 3 | Quatro sinais nucleares; alucinações com pessoas e animais; "encenar o sonho"; basta um sinal cardinal de parkinsonismo | Conferido em McKeith 2017 |
 | 4 | Transtorno do sono REM em 76% dos casos confirmados por autópsia contra 4% dos não DCL; começa anos antes | Conferido em McKeith 2017 |
 | 5 | Regras de DCL provável; biomarcador isolado não basta | Conferido em McKeith 2017 |
 | 6 | Antipsicóticos: evitar sempre que possível, risco aumentado de reação grave de sensibilidade | Conferido em McKeith 2017 |
-| 6 | Nomes haloperidol, risperidona e olanzapina; aviso antes de cirurgia e anestesia | Só no nível básico do módulo; o consenso de 2017 não cita fármacos pelo nome nem anestesia |
+| 6 | Nomes haloperidol, risperidona e olanzapina; aviso antes de cirurgia e anestesia | Só no nível Intermediário do módulo (e na ferramenta de doses, no caso dos nomes); o consenso de 2017 não cita fármacos pelo nome nem anestesia |
 | 6 | Delirium prévio em 25% na DCL contra 7% no Alzheimer | Nível Expert (McKeith 2020), marcado como verificado no app; não reconferido aqui |
 | 7 | Rivastigmina e donepezila: cognição, apatia e alucinações | Conferido em McKeith 2017 |
 | 7 | Melatonina possivelmente mais segura que o clonazepam (cognição e marcha) | Conferido em McKeith 2017 |
 | 7 | Levodopa em dose baixa, subida devagar; resposta menor que no Parkinson | Conferido em McKeith 2017 |
-| 7 | Tranquilizar sobre as "visitas" | Só no nível básico do módulo |
+| 7 | Tranquilizar sobre as "visitas" | Só no nível Intermediário do módulo |
 | 7 | Sem fármaco aprovado pela FDA | Nível Expert (MedLink), marcado como verificado no app; não reconferido aqui |
-| 8 | Explicar a flutuação evita idas repetidas à emergência | Só no nível básico do módulo |
+| 8 | Explicar a flutuação evita idas repetidas à emergência | Só no nível Intermediário do módulo |
 
 Três textos foram reescritos depois dessa conferência para ficar no que o consenso sustenta: a justificativa do quadro 6 (antes citava quadro semelhante à síndrome neuroléptica maligna) e as linhas de melatonina e levodopa do quadro 7 (antes citavam risco respiratório e agonista dopaminérgico).
 
