@@ -1,0 +1,52 @@
+<title>Apatia: referências</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Uma coluna de leitura: título, aviso, lista numerada de fontes. Paleta do app NeuroMov (escura por padrão). */
+:root {
+  --bg: #0c0906; --surface: #181310; --line: #3b2c1c;
+  --ink: #f6efe6; --ink-2: #c6b8a5; --ink-3: #a6957c;
+  --accent: #ff8a4c; --teal: #6fd9c6;
+  --display: "Space Grotesk", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #fbf6ef; --surface: #f3eadd; --line: #e0d0b8;
+  --ink: #1d140d; --ink-2: #4d3f30; --ink-3: #756451;
+  --accent: #c2541a; --teal: #14786a; color-scheme: light } }
+:root[data-theme="light"] {
+  --bg: #fbf6ef; --surface: #f3eadd; --line: #e0d0b8;
+  --ink: #1d140d; --ink-2: #4d3f30; --ink-3: #756451;
+  --accent: #c2541a; --teal: #14786a; color-scheme: light }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.55 var(--body); }
+main { max-width: 680px; margin: 0 auto; padding-block: 48px 64px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1 { font: 600 clamp(34px, 8vw, 52px)/1.04 var(--display); letter-spacing: -0.028em; text-wrap: balance; margin: 0; }
+h1 span { color: var(--accent); }
+.lead { color: var(--ink-2); margin: 18px 0 0; max-width: 60ch; }
+ol { list-style: none; margin: 36px 0 0; padding: 0; counter-reset: ref; }
+li { counter-increment: ref; display: grid; grid-template-columns: 34px minmax(0, 1fr); padding: 20px 0; border-top: 1px solid var(--line); }
+li::before { content: counter(ref); font: 700 18px/1.5 var(--display); color: var(--teal); font-variant-numeric: tabular-nums; }
+li b { font-weight: 600; }
+li small { display: block; color: var(--ink-3); font-size: 15px; margin-top: 4px; }
+a { color: var(--teal); text-underline-offset: 3px; overflow-wrap: anywhere; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.note { margin-top: 36px; padding: 20px 22px; border-radius: 16px; background: var(--surface); color: var(--ink-2); font-size: 15.5px; }
+footer { margin-top: 32px; font: 700 20px/1 var(--display); letter-spacing: -0.02em; }
+::selection { background: var(--accent); color: var(--bg); }
+</style>
+<main>
+  <h1>Apatia <span>não é preguiça.</span></h1>
+  <p class="lead">Fontes do carrossel do NeuroMov sobre apatia nas doenças do movimento.</p>
+  <ol>
+    <li><div><b>Bachoud-Lévi AC, Ferreira J, Massart R, et al.</b> International Guidelines for the Treatment of Huntington’s Disease. Front Neurol. 2019;10:710. <a href="https://doi.org/10.3389/fneur.2019.00710">doi:10.3389/fneur.2019.00710</a><small>Definição de apatia, apatia e irritabilidade na doença de Huntington, o que ajuda.</small></div></li>
+    <li><div><b>Kulisevsky J, Bojtos L, Kramberger MG, et al.</b> Apathy in Lewy Body Disorders: A Position Paper. Mov Disord. 2026. <a href="https://doi.org/10.1002/mds.70464">doi:10.1002/mds.70464</a><small>Impacto, falta de tratamento definitivamente eficaz, antidepressivos.</small></div></li>
+    <li><div><b>Miller DS, Robert P, Ereshefsky L, et al.</b> Diagnostic criteria for apathy in neurocognitive disorders. Alzheimers Dement. 2021. <a href="https://doi.org/10.1002/alz.12358">doi:10.1002/alz.12358</a><small>Critérios: quatro semanas, mais de uma dimensão, mudança em relação ao habitual.</small></div></li>
+    <li><div><b>Timmer MHM, van Beek MHCT, Bloem BR, Esselink RAJ.</b> What a neurologist should know about depression in Parkinson’s disease. Pract Neurol. 2017;17(5):359-368. <a href="https://doi.org/10.1136/practneurol-2017-001650">doi:10.1136/practneurol-2017-001650</a><small>Apatia e depressão: o sofrimento subjetivo.</small></div></li>
+    <li><div><b>Buoli M, Caldiroli A, Altamura AC.</b> Psychiatric Conditions in Parkinson Disease: A Comparison With Classical Psychiatric Disorders. J Geriatr Psychiatry Neurol. 2015. <a href="https://doi.org/10.1177/0891988715606233">doi:10.1177/0891988715606233</a><small>Apatia e depressão juntas; ISRS e apatia.</small></div></li>
+    <li><div><b>Goldman JG.</b> Neuropsychiatric Issues in Parkinson Disease. Continuum (Minneap Minn). 2016;22(4):1086-1103.<small>Humor embotado, não triste.</small></div></li>
+    <li><div><b>Hershey LA, Lichter DG.</b> Progressive supranuclear palsy: cognitive and behavioral changes. MedLink Neurology. 2026.<small>Frequência da apatia na paralisia supranuclear progressiva, na demência com corpos de Lewy e no Parkinson.</small></div></li>
+  </ol>
+  <p class="note">Conteúdo educativo. Não substitui consulta médica, não faz diagnóstico e não autoriza mudar medicação por conta própria.</p>
+  <footer>NeuroMov</footer>
+</main>
