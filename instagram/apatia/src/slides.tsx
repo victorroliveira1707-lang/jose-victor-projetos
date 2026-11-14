@@ -70,7 +70,7 @@ export const S2: React.FC = () => {
   const away = P(1.9, 2.7);
   const items = ["Interesse", "Espontaneidade", "Motivação", "Iniciativa"];
   return (
-    <Frame n={2} stall={0.5} src={<>Definição de Levy e Czernecki, citada em Bachoud-Lévi AC et al. Front Neurol 2019;10:710.</>}>
+    <Frame n={2} stall={0.5} src={<>Bachoud-Lévi et al., Front Neurol 2019.</>}>
       <div style={{ opacity: 1 - 0.38 * away, scale: `${1 - 0.14 * away}`, transformOrigin: "left top" }}>
         <Rise at={0.3} style={body(30, { color: C.ink3 })}>No dia a dia</Rise>
         <Rise at={0.5} style={{ ...serif(74, { color: C.ink2 }), marginTop: 10, position: "relative", display: "inline-block" }}>
@@ -124,7 +124,7 @@ export const SSel: React.FC = () => {
     "Atrapalha a vida pessoal, social ou o trabalho.",
   ];
   return (
-    <Frame n={3} stall={0.45} src={<>Miller DS et al. Diagnostic criteria for apathy in neurocognitive disorders. Alzheimers Dement 2021. Critérios de consenso para pessoas com doença que afeta a cognição.</>}>
+    <Frame n={3} stall={0.45} src={<>Miller et al., Alzheimers Dement 2021. Critérios para pessoas com doença que afeta a cognição.</>}>
       <Words at={0.3} text="Apatia não é desinteresse por uma coisa só." hi={{ uma: C.accent, coisa: C.accent, só: C.accent }} style={h(78)} />
       <div style={{ position: "relative", height: 74, marginTop: 34 }}>
         <div style={{ ...serif(50, { color: C.ink2 }), position: "absolute", opacity: P(1.3, 1.9) * (1 - P(3, 3.5)) }}>“pra isso eu sou apático”</div>
@@ -181,7 +181,7 @@ const Gauge: React.FC<{ at: number; level: number; color: string; name: string; 
 };
 
 export const S3: React.FC = () => (
-  <Frame n={4} stall={0.6} src={<>Timmer MHM et al. Pract Neurol 2017;17(5):359-368 · Goldman JG. Continuum 2016;22(4):1086-1103 · Buoli M et al. J Geriatr Psychiatry Neurol 2015.</>}>
+  <Frame n={4} stall={0.6} src={<>Timmer et al., 2017 · Goldman, 2016 · Buoli et al., 2015.</>}>
     <Words at={0.3} text="Parece depressão. Nem sempre é." hi={{ Nem: C.accent, sempre: C.accent, é: C.accent }} style={h(88)} />
     <div style={{ display: "flex", gap: 22, marginTop: 56 }}>
       <Gauge at={1.5} level={0.86} color={C.accent2} name="Depressão" value="alto" note="humor triste" />
@@ -207,7 +207,7 @@ export const S4: React.FC = () => {
     rotate: flipped ? "y 180deg" : undefined,
   });
   return (
-    <Frame n={5} stall={0.5} src={<>Bachoud-Lévi AC et al. International Guidelines for the Treatment of Huntington’s Disease. Front Neurol 2019;10:710.</>}>
+    <Frame n={5} stall={0.5} src={<>Bachoud-Lévi et al., Front Neurol 2019.</>}>
       <Words at={0.3} text="Na doença de Huntington," hi={{ Huntington: C.teal }} style={h(57)} />
       <Words at={0.6} text="é o sintoma psicológico e" style={h(57)} />
       <Words at={1} text="comportamental mais frequente." hi={{ mais: C.accent, frequente: C.accent }} style={h(57)} />
@@ -246,7 +246,7 @@ export const S5: React.FC = () => {
     { name: "Doença de Parkinson", v: 35, color: C.teal },
   ];
   return (
-    <Frame n={6} stall={0.55} src={<>Hershey LA, Lichter DG. PSP: cognitive and behavioral changes. MedLink Neurology 2026 · Kulisevsky J et al. Mov Disord 2026 · Timmer MHM et al. Pract Neurol 2017.</>}>
+    <Frame n={6} stall={0.55} src={<>Hershey e Lichter, 2026 · Kulisevsky et al., 2026 · Timmer et al., 2017.</>}>
       <Words at={0.3} text="A apatia atravessa várias doenças do movimento." hi={{ atravessa: C.accent }} style={h(80)} />
       <Rise at={1.3} style={body(30, { marginTop: 24, color: C.ink3 })}>Proporção de pacientes com apatia em cada doença</Rise>
       <div style={{ display: "grid", gap: 44, marginTop: 40 }}>
@@ -282,7 +282,7 @@ export const S6: React.FC = () => {
   const drop = (k: number) => P(1.6 + k * 0.8, 2.3 + k * 0.8, Easing.bezier(0.5, 0, 0.6, 1.5));
   const sag = (drop(0) + drop(1) + drop(2)) * 26;
   return (
-    <Frame n={7} stall={0.5} dip={sag * 0.2} src={<>Kulisevsky J, Bojtos L, Kramberger MG, et al.; MDS Non-Motor Symptoms Study Group. Apathy in Lewy Body Disorders: A Position Paper. Mov Disord 2026.</>}>
+    <Frame n={7} stall={0.5} dip={sag * 0.2} src={<>Kulisevsky et al., Mov Disord 2026.</>}>
       <Rise at={0.3} style={h(100)}>Pouco reconhecida.</Rise>
       <Rise at={0.8} style={h(100, { color: C.accent })}>Pouco tratada.</Rise>
       <div style={{ display: "grid", gap: 26, marginTop: 76 }}>
@@ -314,7 +314,7 @@ export const S7: React.FC = () => {
     ["Rever sedativos", "Podem aumentar a apatia: evitar os desnecessários, reduzir doses."],
   ];
   return (
-    <Frame n={8} stall={0.7} src={<>Bachoud-Lévi AC et al. Front Neurol 2019;10:710 (itens 1 a 5, doença de Huntington) · Kulisevsky J et al. Mov Disord 2026.</>}>
+    <Frame n={8} stall={0.7} src={<>Bachoud-Lévi et al., 2019 (doença de Huntington) · Kulisevsky et al., 2026.</>}>
       <Words at={0.3} text="O manejo começa em casa, não na receita." hi={{ casa: C.teal }} style={h(64)} />
       <div style={{ marginTop: 34 }}>
         {rows.map(([a, b], k) => {
@@ -373,6 +373,9 @@ export const S8: React.FC = () => {
         <Rise at={4.7} style={{ marginTop: 18, font: `600 25px/1 ${F.body}`, letterSpacing: "0.18em", textTransform: "uppercase", color: C.accent }}>
           Salve · envie a quem cuida
         </Rise>
+        <Rise at={5.6} style={{ marginTop: 44, display: "inline-flex", alignItems: "center", gap: 14, padding: "18px 30px", borderRadius: 999, border: `1px solid ${C.line}`, font: `500 30px/1 ${F.body}`, color: C.ink2 }}>
+          Referências completas no link da bio <Arrow size={30} color={C.teal} />
+        </Rise>
       </div>
     </Frame>
   );
@@ -385,7 +388,7 @@ export const SAnti: React.FC = () => {
   // gangorra: pende para um lado, para o outro, e assenta
   const tilt = -9 * P(1, 1.9) + 18 * P(2.2, 3.2) - 9 * P(3.6, 4.6) + Math.sin(t * 1.4) * 0.5 * P(4.6, 5.2);
   return (
-    <Frame n={9} stall={0.6} src={<>Buoli M et al. J Geriatr Psychiatry Neurol 2015 · Kulisevsky J et al. Mov Disord 2026 · Bachoud-Lévi AC et al. Front Neurol 2019;10:710.</>}>
+    <Frame n={9} stall={0.6} src={<>Buoli et al., 2015 · Kulisevsky et al., 2026 · Bachoud-Lévi et al., 2019.</>}>
       <Words at={0.3} text="E o antidepressivo, pode piorar a apatia?" hi={{ antidepressivo: C.accent }} style={h(74)} />
       <Rise at={1.2} style={body(32, { marginTop: 26 })}>
         Na doença de Parkinson, uma classe deles, os ISRS (inibidores seletivos da recaptação de serotonina), já foi <b style={{ color: C.ink, fontWeight: 600 }}>associada</b> a mais apatia.
@@ -416,34 +419,4 @@ export const SAnti: React.FC = () => {
   );
 };
 
-/* 11 ─ Referências. */
-export const SRefs: React.FC = () => {
-  const P = useP();
-  const refs = [
-    "Bachoud-Lévi AC, Ferreira J, Massart R, et al. International Guidelines for the Treatment of Huntington’s Disease. Front Neurol. 2019;10:710.",
-    "Kulisevsky J, Bojtos L, Kramberger MG, et al. Apathy in Lewy Body Disorders: A Position Paper. Mov Disord. 2026. doi:10.1002/mds.70464",
-    "Miller DS, Robert P, Ereshefsky L, et al. Diagnostic criteria for apathy in neurocognitive disorders. Alzheimers Dement. 2021. doi:10.1002/alz.12358",
-    "Timmer MHM, van Beek MHCT, Bloem BR, Esselink RAJ. What a neurologist should know about depression in Parkinson’s disease. Pract Neurol. 2017;17(5):359-368.",
-    "Buoli M, Caldiroli A, Altamura AC. Psychiatric Conditions in Parkinson Disease. J Geriatr Psychiatry Neurol. 2015. doi:10.1177/0891988715606233",
-    "Goldman JG. Neuropsychiatric Issues in Parkinson Disease. Continuum (Minneap Minn). 2016;22(4):1086-1103.",
-    "Hershey LA, Lichter DG. Progressive supranuclear palsy: cognitive and behavioral changes. MedLink Neurology. 2026.",
-  ];
-  return (
-    <Frame n={11} stall={1} src={<>Conteúdo dos módulos Huntington, Psiquiátrico do Parkinson e PSP do NeuroMov, e dos artigos que os sustentam.</>}>
-      <Rise at={0.2} style={h(84)}>Referências</Rise>
-      <div style={{ marginTop: 30 }}>
-        {refs.map((r, k) => {
-          const p = P(0.7 + k * 0.3, 1.4 + k * 0.3);
-          return (
-            <div key={k} style={{ display: "flex", gap: 20, padding: "17px 0", borderTop: `1px solid ${C.line}`, opacity: p, translate: `0px ${(1 - p) * 26}px` }}>
-              <div style={{ font: `700 27px/1.3 ${F.display}`, color: C.teal, width: 30, fontVariantNumeric: "tabular-nums" }}>{k + 1}</div>
-              <div style={body(27, { lineHeight: 1.32 })}>{r}</div>
-            </div>
-          );
-        })}
-      </div>
-    </Frame>
-  );
-};
-
-export const SLIDES = [S1, S2, SSel, S3, S4, S5, S6, S7, SAnti, S8, SRefs];
+export const SLIDES = [S1, S2, SSel, S3, S4, S5, S6, S7, SAnti, S8];

@@ -2,12 +2,13 @@
 
 ## Arquivos
 
-- `carrossel/apatia-01.mp4` a `apatia-11.mp4`: os onze quadros animados, 1080x1350 (4:5), 8 s cada, 30 fps, sem áudio. Suba os onze como carrossel de vídeos.
-- `carrossel/apatia-01.png` a `apatia-11.png`: o quadro final de cada animação, para quem preferir o carrossel estático ou precisar de capa.
-- `apatia-completo-1080x1350.mp4`: os onze quadros em sequência (88 s), com faixa de áudio em silêncio. Serve como vídeo único; o áudio se escolhe no Instagram.
+- `carrossel/apatia-01.mp4` a `apatia-10.mp4`: os dez quadros animados, 1080x1350 (4:5), 8 s cada, 30 fps, sem áudio. Suba os dez como carrossel de vídeos.
+- `carrossel/apatia-01.png` a `apatia-10.png`: o quadro final de cada animação, para quem preferir o carrossel estático ou precisar de capa.
+- `apatia-completo-1080x1350.mp4`: os dez quadros em sequência (80 s), com faixa de áudio em silêncio. Serve como vídeo único; o áudio se escolhe no Instagram.
+- `referencias.html`: página com as sete referências completas, publicada em https://claude.ai/artifact/6RgPusxaEnQek2Bk1MGE1y. É para ela que aponta o "link da bio" do último quadro. A página nasce privada: é preciso abri-la e liberar o acesso no menu Compartilhar antes de colocar o link na bio.
 - `src/` e `render.sh`: fonte em Remotion. `npm install` e depois `./render.sh all` geram tudo de novo depois de editar um texto (`./render.sh probe` gera só os PNG).
 
-Ordem: 1 gancho, 2 a palavra, 3 não é seletiva, 4 apatia e depressão, 5 Huntington, 6 outras doenças, 7 o peso, 8 o que ajuda, 9 antidepressivo, 10 fecho, 11 referências.
+Ordem: 1 gancho, 2 a palavra, 3 não é seletiva, 4 apatia e depressão, 5 Huntington, 6 outras doenças, 7 o peso, 8 o que ajuda, 9 antidepressivo, 10 fecho. Cada quadro leva só autor e ano no rodapé; a lista completa fica na página de referências.
 
 ## Legenda sugerida
 
@@ -23,7 +24,7 @@ Para o colega: apatia não é depressão, embora as duas andem juntas. O sofrime
 
 Conteúdo educativo. Não substitui consulta médica nem autoriza mudar medicação por conta própria.
 
-Fontes: Bachoud-Lévi AC et al. Front Neurol 2019;10:710. Kulisevsky J et al. Mov Disord 2026. Miller DS et al. Alzheimers Dement 2021. Timmer MHM et al. Pract Neurol 2017;17(5):359-368. Buoli M et al. J Geriatr Psychiatry Neurol 2015. Goldman JG. Continuum 2016;22(4):1086-1103. Hershey LA, Lichter DG. MedLink Neurology 2026.
+Referências completas no link da bio.
 
 #apatia #doencadehuntington #parkinson #neurologia #disturbiosdomovimento #cuidadores #neuromov
 

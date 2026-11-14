@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Gera os 11 quadros animados (MP4 1080x1350), as 11 capas estáticas (PNG) e o vídeo completo.
+# Gera os 10 quadros animados (MP4 1080x1350), as 10 capas estáticas (PNG) e o vídeo completo.
 # Uso: ./render.sh [probe|all]   (probe = só as capas, para conferir o layout)
 set -euo pipefail
 cd "$(dirname "$0")"
 BROWSER=${BROWSER:-$(ls -d /opt/pw-browsers/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell 2>/dev/null | head -1)}
 OPT=(--log=error ${BROWSER:+--browser-executable="$BROWSER"})
 mkdir -p carrossel
-for i in 01 02 03 04 05 06 07 08 09 10 11; do
+for i in 01 02 03 04 05 06 07 08 09 10; do
   npx remotion still src/index.ts "apatia-$i" "carrossel/apatia-$i.png" --frame=239 "${OPT[@]}"
   [ "${1:-all}" = probe ] || npx remotion render src/index.ts "apatia-$i" "carrossel/apatia-$i.mp4" --crf=17 "${OPT[@]}"
 done
 [ "${1:-all}" = probe ] && exit 0
 # vídeo completo: os oito quadros em sequência, com faixa de áudio em silêncio (o áudio se escolhe no Instagram)
-printf "file 'carrossel/apatia-%s.mp4'\n" 01 02 03 04 05 06 07 08 09 10 11 > .lista.txt
+printf "file 'carrossel/apatia-%s.mp4'\n" 01 02 03 04 05 06 07 08 09 10 > .lista.txt
 ffmpeg -y -loglevel error -f concat -safe 0 -i .lista.txt -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 \
   -shortest -c:v copy -c:a aac -b:a 128k -movflags +faststart apatia-completo-1080x1350.mp4
 rm .lista.txt

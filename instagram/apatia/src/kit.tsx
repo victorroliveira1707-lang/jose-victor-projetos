@@ -26,7 +26,7 @@ export const C = {
   teal: "#6fd9c6", danger: "#ff5470", gold: "#ffc93c",
 };
 export const F = { display: '"Space Grotesk", sans-serif', body: '"Inter", sans-serif', serif: '"Instrument Serif", serif' };
-export const W = 1080, H = 1350, FPS = 30, SEC = 8, N = 11;
+export const W = 1080, H = 1350, FPS = 30, SEC = 8, N = 10;
 
 export const out = Easing.bezier(0.16, 1, 0.3, 1);
 export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
