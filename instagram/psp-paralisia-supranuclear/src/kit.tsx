@@ -45,7 +45,7 @@ export const Rise: React.FC<{at: number; dy?: number; style?: React.CSSPropertie
 export const Words: React.FC<{at: number; text: string; step?: number; style?: React.CSSProperties; hi?: Record<string, string>}> = ({at, text, step = 3, style, hi = {}}) => {
   const frame = useCurrentFrame();
   return (
-    <div style={{fontFamily: display, fontWeight: 600, letterSpacing: '-0.028em', ...style}}>
+    <div style={{fontFamily: display, fontWeight: 600, letterSpacing: '-0.028em', textWrap: 'balance', ...style}}>
       {text.split(' ').map((w, i) => (
         <span
           key={i}
@@ -64,15 +64,34 @@ export const Words: React.FC<{at: number; text: string; step?: number; style?: R
   );
 };
 
-export const Tag: React.FC<{at?: number; color?: string; children: React.ReactNode}> = ({at = 4, color = C.ink3, children}) => {
+/** Seta desenhada (nada de caractere de texto no lugar de ícone). */
+export const Arrow: React.FC<{size?: number; color?: string}> = ({size = 34, color = 'currentColor'}) => (
+  <svg width={size} height={size * 0.6} viewBox="0 0 40 24" fill="none" stroke={color} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 12 H36 M26 3 L36 12 L26 21" />
+  </svg>
+);
+
+const tones = {
+  colega: {label: 'Colega', color: C.accentInk, edge: 'rgba(255,138,76,.42)', fill: 'rgba(255,138,76,.07)'},
+  casa: {label: 'Em casa', color: C.teal, edge: 'rgba(111,217,198,.42)', fill: 'rgba(111,217,198,.08)'},
+  nuance: {label: '', color: C.ink, edge: C.line, fill: 'rgba(24,19,16,.9)'},
+} as const;
+
+/** Nota de rodapé do slide. A cor diz para quem é: laranja para o colega, verde para a família. Entra em cortina. */
+export const Note: React.FC<{at: number; to: keyof typeof tones; label?: string; children: React.ReactNode}> = ({at, to, label, children}) => {
   const frame = useCurrentFrame();
+  const t = tones[to];
+  const lead = label ?? t.label;
   return (
     <div
       style={{
-        fontFamily: body, fontWeight: 600, fontSize: 23, letterSpacing: '0.2em', textTransform: 'uppercase', color,
-        opacity: interpolate(frame, [at, at + 14], [0, 1], clamp),
+        position: 'absolute', left: 84, right: 84, bottom: 106, padding: '26px 30px', borderRadius: 22,
+        border: `1px solid ${t.edge}`, background: t.fill,
+        fontFamily: body, fontWeight: 400, fontSize: 28, lineHeight: 1.36, color: C.ink2,
+        clipPath: `inset(0 ${interpolate(frame, [at, at + 26], [100, 0], {...clamp, easing: out})}% 0 0 round 22px)`,
       }}
     >
+      {lead ? <span style={{color: t.color, fontWeight: 600}}>{lead}: </span> : null}
       {children}
     </div>
   );
@@ -117,6 +136,7 @@ export const Chrome: React.FC<{n: number}> = ({n}) => {
   const frame = useCurrentFrame();
   return (
     <>
+      {n < TOTAL ? <div style={{position: 'absolute', left: 84, top: 58, fontFamily: display, fontWeight: 700, fontSize: 30, letterSpacing: '-0.02em', color: C.ink2}}>NeuroMov</div> : null}
       <div style={{position: 'absolute', right: 84, top: 64, fontFamily: body, fontWeight: 600, fontSize: 23, letterSpacing: '0.14em', color: C.ink3}}>
         {String(n).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
       </div>
@@ -140,7 +160,7 @@ export const Chrome: React.FC<{n: number}> = ({n}) => {
 export const Frame: React.FC<{n: number; children: React.ReactNode}> = ({n, children}) => (
   <AbsoluteFill style={{backgroundColor: C.bg, color: C.ink, fontFamily: body}}>
     <Backdrop n={n} />
-    <AbsoluteFill style={{padding: '64px 84px 0'}}>{children}</AbsoluteFill>
+    <AbsoluteFill style={{padding: '150px 84px 0'}}>{children}</AbsoluteFill>
     <Chrome n={n} />
   </AbsoluteFill>
 );
