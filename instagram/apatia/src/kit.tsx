@@ -26,7 +26,11 @@ export const C = {
   teal: "#6fd9c6", danger: "#ff5470", gold: "#ffc93c",
 };
 export const F = { display: '"Space Grotesk", sans-serif', body: '"Inter", sans-serif', serif: '"Instrument Serif", serif' };
-export const W = 1080, H = 1350, FPS = 30, SEC = 8, N = 10;
+export const W = 1080, H = 1350, FPS = 30, N = 10;
+/** Ritmo: todo instante de animação é multiplicado por SLOW. Suba para deixar mais lento. */
+export const SLOW = 1.5;
+/** Duração de cada quadro, em segundos: a animação termina e sobra tempo para ler. Manter igual à lista do render.sh. */
+export const DUR = [11, 13, 16, 14, 14, 13, 13, 17, 18, 12];
 
 export const out = Easing.bezier(0.16, 1, 0.3, 1);
 export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -35,7 +39,7 @@ export const useP = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (a: number, b: number, easing: (n: number) => number = out) =>
-    interpolate(frame, [a * fps, b * fps], [0, 1], { ...clamp, easing });
+    interpolate(frame, [a * SLOW * fps, b * SLOW * fps], [0, 1], { ...clamp, easing });
 };
 export const useT = () => useCurrentFrame() / useVideoConfig().fps;
 

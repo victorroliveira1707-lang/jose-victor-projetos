@@ -6,8 +6,10 @@ cd "$(dirname "$0")"
 BROWSER=${BROWSER:-$(ls -d /opt/pw-browsers/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell 2>/dev/null | head -1)}
 OPT=(--log=error ${BROWSER:+--browser-executable="$BROWSER"})
 mkdir -p carrossel
-for i in 01 02 03 04 05 06 07 08 09 10; do
-  npx remotion still src/index.ts "apatia-$i" "carrossel/apatia-$i.png" --frame=239 "${OPT[@]}"
+DUR=(11 13 16 14 14 13 13 17 18 12)   # segundos por quadro; manter igual a DUR em src/kit.tsx
+for k in "${!DUR[@]}"; do
+  i=$(printf "%02d" $((k + 1)))
+  npx remotion still src/index.ts "apatia-$i" "carrossel/apatia-$i.png" --frame=$((DUR[k] * 30 - 1)) "${OPT[@]}"
   [ "${1:-all}" = probe ] || npx remotion render src/index.ts "apatia-$i" "carrossel/apatia-$i.mp4" --crf=17 "${OPT[@]}"
 done
 [ "${1:-all}" = probe ] && exit 0
