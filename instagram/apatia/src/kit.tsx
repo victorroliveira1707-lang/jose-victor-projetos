@@ -26,7 +26,7 @@ export const C = {
   teal: "#6fd9c6", danger: "#ff5470", gold: "#ffc93c",
 };
 export const F = { display: '"Space Grotesk", sans-serif', body: '"Inter", sans-serif', serif: '"Instrument Serif", serif' };
-export const W = 1080, H = 1350, FPS = 30, SEC = 7, N = 8;
+export const W = 1080, H = 1350, FPS = 30, SEC = 8, N = 11;
 
 export const out = Easing.bezier(0.16, 1, 0.3, 1);
 export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -73,17 +73,11 @@ export const Words: React.FC<{ text: string; at: number; gap?: number; style?: R
   );
 };
 
-export const Tag: React.FC<{ children: React.ReactNode; color?: string }> = ({ children, color = C.ink3 }) => (
-  <Rise at={0.1} y={16} blur={0} style={{ font: `600 23px/1 ${F.body}`, letterSpacing: "0.2em", textTransform: "uppercase", color }}>
-    {children}
-  </Rise>
-);
-
 /**
  * Linha do impulso: atravessa os oito quadros. Sai de um quadro na mesma altura em que
  * entra no seguinte, para o gesto de arrastar parecer contínuo.
  */
-const EDGE = [1165, 1150, 1175, 1155, 1170, 1150, 1160, 1150, 1165];
+const EDGE = [1165, 1150, 1172, 1175, 1155, 1170, 1150, 1160, 1150, 1168, 1150, 1165];
 export const Impulse: React.FC<{ n: number; stall?: number; dip?: number }> = ({ n, stall = 1, dip = 0 }) => {
   const P = useP();
   const t = useT();
@@ -114,7 +108,7 @@ export const Frame: React.FC<{ n: number; src?: React.ReactNode; stall?: number;
       <Impulse n={n} stall={stall} dip={dip} />
       <AbsoluteFill style={{ padding: "76px 84px 0" }}>{children}</AbsoluteFill>
       <div style={{ position: "absolute", left: 84, right: 84, bottom: 44, opacity: P(0.6, 1.6) }}>
-        {src && <div style={{ font: `400 21px/1.4 ${F.body}`, color: C.ink3, marginBottom: 20 }}>{src}</div>}
+        {src && <div style={{ font: `400 22px/1.4 ${F.body}`, color: C.ink3, marginBottom: 20 }}>{src}</div>}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ font: `700 27px/1 ${F.display}`, letterSpacing: "-0.02em" }}>NeuroMov</div>
           <div style={{ display: "flex", gap: 9 }}>
