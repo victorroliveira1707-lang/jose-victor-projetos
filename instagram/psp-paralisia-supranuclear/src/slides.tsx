@@ -87,7 +87,7 @@ export const S2: React.FC = () => {
         {chip(134, 'PSP', C.accent, true)}
         {chip(144, 'outros parkinsonismos atípicos', C.ink3)}
       </div>
-      <Rise at={166} style={{position: 'absolute', left: 84, right: 84, bottom: 112, ...P, fontSize: 26, borderLeft: `4px solid ${C.accent}`, paddingLeft: 24}}>
+      <Rise at={166} style={{position: 'absolute', left: 84, right: 84, bottom: 106, ...P, fontSize: 26, padding: '22px 28px', borderRadius: 22, border: `1px dashed rgba(255,138,76,.5)`}}>
         <span style={{color: C.accentInk, fontWeight: 600}}>Colega:</span> pelos critérios MDS de 2015, a bradicinesia precisa ser documentada nos membros, com decremento.
       </Rise>
     </Frame>
