@@ -211,7 +211,7 @@ export const S5: React.FC = () => {
           );
         })}
       </div>
-      <Rise at={4.4} style={{ ...body(28), marginTop: 34, padding: "22px 28px", borderLeft: `4px solid ${C.accent}`, background: "linear-gradient(90deg, rgba(255,138,76,.12), transparent)" }}>
+      <Rise at={4.4} style={{ ...body(28), marginTop: 38, paddingTop: 26, borderTop: `1px solid ${C.line}` }}>
         Os números mudam conforme o estudo e a fase: <b style={{ color: C.ink, fontWeight: 600 }}>55% a 66%</b> na demência com corpos de Lewy;
         de <b style={{ color: C.ink, fontWeight: 600 }}>20% a 60%</b> no Parkinson.
       </Rise>
