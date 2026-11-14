@@ -157,7 +157,7 @@ def cena_opiniao(t, foto, palavras, dur=8.7):
     cartao_branco(im, (x, 1180, x + 820, 1340), 24)
     d.rounded_rectangle((x, 1180, x + 22, 1340), 10, fill=AZUL)
     d.text((x + 50, 1200), "JOSÉ VÍCTOR", font=fonte('bebas', 76), fill=TINTA)
-    d.text((x + 52, 1282), "Neurologia · Distúrbios do movimento", font=fonte('mont', 32), fill=(90, 96, 115))
+    d.text((x + 52, 1282), "Médico neurologista", font=fonte('mont', 34), fill=(90, 96, 115))
     d.text((x + 52, 1352), "CRM-BA 36565 · RQE 26940", font=fonte('mont', 30, 'Bold'), fill=BRANCO,
            stroke_width=3, stroke_fill=(0, 0, 0))
     legenda(im, palavras, 1420)
@@ -198,10 +198,10 @@ def obj_passo3(im, t, t_hl=1.2, t_alert=3.0):
         d.text((222, y), "• " + it, font=fonte('mont', 44), fill=TINTA)
     if t > t_alert:
         a = ease((t - t_alert) / 0.6)
-        txt = "NÃO SUSPENDA SOZINHO"
+        txt = "SÓ MUDE COM ORIENTAÇÃO MÉDICA"
         n = int(len(txt) * a)
         d.rounded_rectangle((170, 840, 910, 920), 20, fill=TINTA)
-        d.text((540, 882), txt[:n], font=fonte('bebas', 70), fill=AMARELO, anchor='mm')
+        d.text((540, 882), txt[:n], font=fonte('bebas', 60), fill=AMARELO, anchor='mm')
 
 def cena_passo2(t, palavras, marcas):
     im = fundo()
@@ -275,6 +275,12 @@ def cena_chamada(t, quadro_avatar, palavras, t_digita):
     av = foto_cortada(quadro_avatar, W, H, 1.0, (0.5, 0.42))
     im.paste(av, (0, 0))
     d = ImageDraw.Draw(im)
+    # alerta fixo: ninguém mexe nos medicamentos sem consulta
+    sombra(im, (130, 250, 950, 410), 24)
+    d.rounded_rectangle((130, 250, 950, 410), 24, fill=TINTA)
+    d.rounded_rectangle((130, 250, 152, 410), 10, fill=AMARELO)
+    d.text((550, 300), "ATENÇÃO: NÃO SUSPENDA NEM TROQUE", font=fonte('bebas', 58), fill=AMARELO, anchor='mm')
+    d.text((550, 360), "medicamentos sem consulta médica", font=fonte('mont', 36, 'Bold'), fill=BRANCO, anchor='mm')
     if t >= t_digita:
         palavra = "MEDICAMENTO"; n = min(len(palavra), int((t - t_digita) / 0.09) + 1)
         cartao_branco(im, (90, 1280, 990, 1400), 60)
@@ -288,4 +294,47 @@ def cena_chamada(t, quadro_avatar, palavras, t_digita):
         d.ellipse((880, 1295, 970, 1385), fill=VERMELHO)
         d.polygon([(910, 1315), (910, 1365), (950, 1340)], fill=BRANCO)
     legenda(im, palavras, 1415)
+    return im
+
+def cena_motion(t, n, nome, desenha_objeto, palavras, escala=1.1, y_dest=620):
+    """Passo em tela cheia: o objeto (desenhado para a faixa y 440-1000) ampliado e centralizado."""
+    im = fundo()
+    cabecalho_passo(im, n, nome, 240, t)
+    camada = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    desenha_objeto(camada, t)
+    reg = camada.crop((0, 440, W, 1000))
+    nw, nh = int(W * escala), int(560 * escala)
+    reg = reg.resize((nw, nh), Image.LANCZOS)
+    im.paste(reg, ((W - nw) // 2, y_dest), reg)
+    legenda(im, palavras, 1425)
+    return im
+
+def cena_passo2b(t, palavras, marcas, marcas_psi):
+    """Passo 2 com 6 cartões compactos; o último lista os psiquiátricos à medida que são falados."""
+    im = fundo()
+    cabecalho_passo(im, 2, "Procure estes nomes", 240, t)
+    cards = [("FLUNARIZINA", "tontura, enxaqueca"), ("CINARIZINA", "tontura, labirintite"),
+             ("METOCLOPRAMIDA", "estômago, enjoo"), ("BROMOPRIDA", "estômago, enjoo"),
+             ("PROMETAZINA", "alergia, enjoo, sono")]
+    y0, passo, h = 500, 150, 132
+    for i, (n, u) in enumerate(cards):
+        a = (t - marcas[i]) / 0.45
+        if a <= 0: continue
+        dx = int(160 * (1 - ease(a))); x = 90
+        cartao_branco(im, (x + dx, y0 + i * passo, x + dx + 900, y0 + i * passo + h), 26)
+        d = ImageDraw.Draw(im)
+        d.rounded_rectangle((x + dx, y0 + i * passo, x + dx + 22, y0 + i * passo + h), 10, fill=AMARELO)
+        d.text((x + dx + 50, y0 + i * passo + h / 2), n, font=fonte('bebas', 76), fill=TINTA, anchor='lm')
+        d.text((x + dx + 880, y0 + i * passo + h / 2), u, font=fonte('mont', 32), fill=(90, 96, 115), anchor='rm')
+    a = (t - marcas[5]) / 0.45
+    if a > 0:
+        y = y0 + 5 * passo; dx = int(160 * (1 - ease(a)))
+        cartao_branco(im, (90 + dx, y, 990 + dx, y + 170), 26)
+        d = ImageDraw.Draw(im)
+        d.rounded_rectangle((90 + dx, y, 112 + dx, y + 170), 10, fill=AMARELO)
+        d.text((140 + dx, y + 48), "PSIQUIÁTRICOS", font=fonte('bebas', 76), fill=TINTA, anchor='lm')
+        nomes = ["olanzapina", "risperidona", "haloperidol"]
+        vis = [nm for nm, mt in zip(nomes, marcas_psi) if t >= mt]
+        d.text((142 + dx, y + 120), " · ".join(vis), font=fonte('mont', 40, 'Bold'), fill=AZUL, anchor='lm')
+    legenda(im, palavras, 1435)
     return im

@@ -11,12 +11,13 @@ dur = {k: float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'form
                                 B + f'audio/{k}.mp3'], capture_output=True, text=True).stdout) for k in ordem}
 
 # correções de transcrição para a legenda (o áudio não muda)
-fix = {'Disturbos': 'distúrbios', 'Neurologista': 'neurologista', 'Movimento,': 'movimento,',
-       'Parkinsonismo': 'parkinsonismo', 'enjô,': 'enjoo,', 'enjol.': 'enjoo.', 'sinarizina,': 'cinarizina,'}
+fix = {'-neurologista,': 'neurologista.', 'Parkinsonismo': 'parkinsonismo', 'enjô,': 'enjoo,', 'enjou.': 'enjoo.',
+       'sinarizina,': 'cinarizina,', 'prometasina': 'prometazina', 'lanzapina,': 'olanzapina,', 'aloperidol.': 'haloperidol.',
+       'Inclusive,': 'inclusive', 'toma.': 'toma,', 'meses.': 'meses,'}
 for k in ordem:
     ws = pal[k + '.mp3']
-    if k == '1_opiniao':
-        ws = [w for i, w in enumerate(ws) if not (i == 2 and w['w'] == 'o')]
+    if k == '3_passo2':  # 'como o lanzapina' -> 'como olanzapina'
+        ws = [w for i, w in enumerate(ws) if not (w['w'] == 'o' and i + 1 < len(ws) and ws[i + 1]['w'].startswith('lanzapina'))]
     for w in ws: w['w'] = fix.get(w['w'], w['w'])
     pal[k] = ws
 
@@ -59,9 +60,10 @@ class Leitor:
 m1 = [tempo('2_passo1', 'medicamentos'), tempo('2_passo1', 'últimos'), tempo('2_passo1', 'cabeça'),
       tempo('2_passo1', 'tontura'), tempo('2_passo1', 'enjoo'), tempo('2_passo1', 'estômago')]
 m2 = [tempo('3_passo2', 'flunarizina'), tempo('3_passo2', 'cinarizina'), tempo('3_passo2', 'metoclopramida'),
-      tempo('3_passo2', 'bromoprida'), tempo('3_passo2', 'Alguns')]
+      tempo('3_passo2', 'bromoprida'), tempo('3_passo2', 'prometazina'), tempo('3_passo2', 'psiquiátricos')]
+m2p = [tempo('3_passo2', 'olanzapina'), tempo('3_passo2', 'risperidona'), tempo('3_passo2', 'haloperidol')]
 m3 = [tempo('4_passo3', 'Achou'), tempo('4_passo3', 'Não')]
-m4 = [tempo('5_passo4_fecho', 'causa'), tempo('5_passo4_fecho', 'melhora'), tempo('5_passo4_fecho', 'meses')]
+m4 = [tempo('5_passo4_fecho', 'tira'), tempo('5_passo4_fecho', 'melhora'), tempo('5_passo4_fecho', 'meses')]
 t_fecho = tempo('5_passo4_fecho', 'Então')
 t_dig = tempo('6_chamada', 'comenta')
 
@@ -96,7 +98,7 @@ total = acc
 for k in ordem[1:]: sons.append((offs[k] - 0.05, 'whoosh', -14))
 sons.append((0.0, 'whoosh', -14))
 for x in m1: sons.append((offs['2_passo1'] + x - 0.1, 'click', -12))
-for x in m2: sons.append((offs['3_passo2'] + x - 0.1, 'click', -12))
+for x in m2 + m2p: sons.append((offs['3_passo2'] + x - 0.1, 'click', -12))
 sons.append((offs['4_passo3'] + m3[0] - 0.1, 'click', -12))
 sons.append((offs['4_passo3'] + m3[1] - 0.1, 'type', -14))
 for x in m4: sons.append((offs['5_passo4_fecho'] + x - 0.1, 'click', -12))
@@ -107,7 +109,7 @@ if __name__ == '__main__':
     de = float(sys.argv[1]) if len(sys.argv) > 1 else 0.0
     ate = float(sys.argv[2]) if len(sys.argv) > 2 else total
     saida = sys.argv[3] if len(sys.argv) > 3 else B + 'video_mudo.mp4'
-    av = {'0_gancho': Leitor(B + 'avatar/gancho.mp4'), '6_chamada': Leitor(B + 'avatar/chamada.mp4')}
+    av = {'0_gancho': Leitor(B + 'avatar/gancho.mp4'), '1_opiniao': Leitor(B + 'avatar/opiniao.mp4'), '6_chamada': Leitor(B + 'avatar/chamada.mp4')}
     enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '1080x1920',
                             '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '19',
                             '-pix_fmt', 'yuv420p', saida], stdin=subprocess.PIPE)
@@ -120,10 +122,10 @@ if __name__ == '__main__':
         if T < de or T >= ate: continue
         w = palavras_em(k, t)
         if k == '0_gancho': im = cena_gancho(t, q, w)
-        elif k == '1_opiniao': im = cena_opiniao(t, foto, w, dur[k])
-        elif k == '2_passo1': im = tela_dividida(t, foto, dur[k], 1, "Junte todos os medicamentos", obj_p1, w)
-        elif k == '3_passo2': im = cena_passo2(t, w, [x - 0.1 for x in m2])
-        elif k == '4_passo3': im = tela_dividida(t, foto, dur[k], 3, "Leve a lista ao médico", obj_p3, w)
+        elif k == '1_opiniao': im = cena_opiniao(t, q, w, dur[k])
+        elif k == '2_passo1': im = cena_motion(t, 1, "Junte todos os medicamentos", obj_p1, w)
+        elif k == '3_passo2': im = cena_passo2b(t, w, [x - 0.1 for x in m2], [x - 0.05 for x in m2p])
+        elif k == '4_passo3': im = cena_motion(t, 3, "Leve a lista ao médico", obj_p3, w)
         elif k == '5_passo4_fecho': im = cena_p4(t, w)
         else: im = cena_chamada(t, q, w, t_dig - 0.1)
         enc.stdin.write(im.tobytes())
